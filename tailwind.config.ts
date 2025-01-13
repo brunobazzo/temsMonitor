@@ -11,8 +11,11 @@ export default {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        vivoPurple: '#8300E9', // roxo da Vivo
       },
     },
   },
   plugins: [],
 } satisfies Config;
+
+
