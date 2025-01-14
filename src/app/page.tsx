@@ -2,6 +2,82 @@
 
 import { useEffect, useState } from "react";
 
+const mockData: AutomationProps[] = [
+      {
+      "instancia": "10.113.144.213",
+      "name": "AutomacaoXPTO.groovy",
+      "fechamentos1h": 6,
+      "aberturas1h": 6,
+      "fechamentos2h": 9,
+      "aberturas2h": 7,
+      "fechamentos3h": 7,
+      "aberturas3h": 8,
+      "fechamentos4h": 4,
+      "aberturas4h": 7,
+      "fechamentos5h": 4,
+      "aberturas5h": 7,
+      "fechamentos6h": 4,
+      "aberturas6h": 7,
+      "fechamentos7h": 3,
+      "aberturas7h": 6,
+      "fechamentos8h": 4,
+      "aberturas8h": 7,
+      "fechamentos9h": 5,
+      "aberturas9h": 6,
+      "fechamentos10h": 6,
+      "aberturas10h": 8
+    },
+    {
+      "instancia": "10.113.144.214",
+      "name": "AutomacaoMetroXYZ.groovy",
+      "fechamentos1h": 9,
+      "aberturas1h": 8,
+      "fechamentos2h": 7,
+      "aberturas2h": 6,
+      "fechamentos3h": 5,
+      "aberturas3h": 4,
+      "fechamentos4h": 3,
+      "aberturas4h": 2,
+      "fechamentos5h": 4,
+      "aberturas5h": 7,
+      "fechamentos6h": 4,
+      "aberturas6h": 7,
+      "fechamentos7h": 3,
+      "aberturas7h": 5,
+      "fechamentos8h": 2,
+      "aberturas8h": 6,
+      "fechamentos9h": 4,
+      "aberturas9h": 7,
+      "fechamentos10h": 6,
+      "aberturas10h": 5
+    },
+    {
+      "instancia": "10.113.144.213",
+      "name": "AutomacaoYYY.groovy",
+      "fechamentos1h": 2,
+      "aberturas1h": 3,
+      "fechamentos2h": 4,
+      "aberturas2h": 5,
+      "fechamentos3h": 6,
+      "aberturas3h": 7,
+      "fechamentos4h": 8,
+      "aberturas4h": 9,
+      "fechamentos5h": 4,
+      "aberturas5h": 7,
+      "fechamentos6h": 4,
+      "aberturas6h": 7,
+      "fechamentos7h": 5,
+      "aberturas7h": 6,
+      "fechamentos8h": 4,
+      "aberturas8h": 5,
+      "fechamentos9h": 6,
+      "aberturas9h": 8,
+      "fechamentos10h": 7,
+      "aberturas10h": 9
+}
+]
+  
+
 interface AutomationProps {
   instancia: string;
   name: string;
@@ -34,9 +110,10 @@ export default function Home() {
   // UseEffect para buscar os dados da API
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch('http://localhost:4000/users');
-      const result = await response.json();
-      setData(result);
+      //const response = await fetch('http://localhost:4000/users');
+      //const result = await response.json();
+      //setData(result);
+      setData(mockData);
     };
 
     fetchData();

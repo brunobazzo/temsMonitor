@@ -10,7 +10,7 @@ export const  metadata: Metadata = {
   description: "monitoramento automações do TEMS",
   openGraph:{
     title: "monitoramento TEMS",
-    description: "monitoramento automações do TEMS"
+    description: "monitoramento automações do TEMS",
   }
 }
 
