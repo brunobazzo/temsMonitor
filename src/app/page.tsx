@@ -1,4 +1,5 @@
 "use client"; // Necessário para usar hooks no Next.js
+import * as XLSX from 'xlsx'; // Importando a biblioteca XLSX
 
 import { useEffect, useState } from "react";
 
@@ -122,7 +123,7 @@ export default function Home() {
   const renderTableHeaderForYears = () => {
     const currentYear = new Date().getFullYear(); // Obtém o ano atual
     const numberOfYears = 10; // Número de anos que você quer mostrar
-  
+
     let years = [];
     for (let i = 0; i < numberOfYears; i++) {
       years.push(
@@ -301,26 +302,35 @@ export default function Home() {
     }
   };
 
+  // Função para exportar os dados para Excel
+  const exportToExcel = (automation: AutomationProps) => {
+    const ws = XLSX.utils.json_to_sheet([automation]); // Converte os dados para planilha
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Dados");
+
+    // Gera o arquivo Excel e inicia o download
+    XLSX.writeFile(wb, `${automation.name}_dados.xlsx`);
+  };
 
   return (
     <div>
-      <h1 className="text-center mt-5 mb-4 font-bold text-3xl text-[#000000]">Automações</h1>
-      
+      <div className="flex justify-between items-center mt-5 mb-4 mx-4">
+        <h1 className="font-bold text-3xl text-[#000000]">Automações</h1>
+      </div>
+  
       {/* Botões de filtro */}
       <div className="flex justify-center gap-4 mb-4">
         {["horas", "dias", "meses", "anos"].map((option) => (
           <button
             key={option}
             onClick={() => setFilter(option as "horas" | "dias" | "meses" | "anos")}
-            className={`px-4 py-2 rounded ${
-              filter === option ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-700"
-            } hover:bg-blue-500 hover:text-white`}
+            className={`px-4 py-2 rounded ${filter === option ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-700"} hover:bg-blue-500 hover:text-white`}
           >
             {option.charAt(0).toUpperCase() + option.slice(1)}
           </button>
         ))}
       </div>
-
+  
       {/* Exibição dos dados */}
       <div className="flex flex-col gap-6 mx-4">
         {data.length > 0 ? (
@@ -329,7 +339,15 @@ export default function Home() {
               key={automation.name}
               className="border rounded-lg shadow-md p-4 bg-white hover:shadow-lg transition-shadow duration-300"
             >
-              <h2 className="font-bold text-xl text-gray-800 mb-3">{automation.name}</h2>
+              <div className="flex justify-between items-center">
+                <h2 className="font-bold text-xl text-gray-800 mb-3">{automation.name}</h2>
+                <button
+                  onClick={() => exportToExcel(automation)}
+                  className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
+                >
+                  Exportar Dados
+                </button>
+              </div>
               <p className="text-left mt-2 mb-3 font-medium text-sm text-gray-600">
                 Instância da cardinal: {automation.instancia}
               </p>
