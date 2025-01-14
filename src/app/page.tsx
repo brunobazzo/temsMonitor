@@ -304,13 +304,22 @@ export default function Home() {
 
   // Função para exportar os dados para Excel
   const exportToExcel = (automation: AutomationProps) => {
-    const ws = XLSX.utils.json_to_sheet([automation]); // Converte os dados para planilha
+    // Construir os dados no formato da tabela
+    const tableData: any[][] = [
+      ["Indicador", "1h", "2h", "3h", "4h", "5h", "6h", "7h", "8h", "9h", "10h"], // Cabeçalho
+      ["Aberturas", automation.aberturas1h, automation.aberturas2h, automation.aberturas3h, automation.aberturas4h, automation.aberturas5h, automation.aberturas6h, automation.aberturas7h, automation.aberturas8h, automation.aberturas9h, automation.aberturas10h],
+      ["Fechamentos", automation.fechamentos1h, automation.fechamentos2h, automation.fechamentos3h, automation.fechamentos4h, automation.fechamentos5h, automation.fechamentos6h, automation.fechamentos7h, automation.fechamentos8h, automation.fechamentos9h, automation.fechamentos10h],
+    ];
+  
+    // Converter os dados em uma planilha
+    const ws = XLSX.utils.aoa_to_sheet(tableData); // Usa aoa_to_sheet para uma matriz de arrays
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, "Dados");
-
+  
     // Gera o arquivo Excel e inicia o download
     XLSX.writeFile(wb, `${automation.name}_dados.xlsx`);
   };
+  
 
   return (
     <div>
