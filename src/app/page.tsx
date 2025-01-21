@@ -262,7 +262,7 @@ export default function Home() {
     }
   };
 
-  const renderHeaderColumns = (automation: AutomationProps) => {
+  const renderHeaderColumns = () => {
     switch (filter) {
       case "horas":
         return (
@@ -304,12 +304,35 @@ export default function Home() {
 
   // Função para exportar os dados para Excel
   const exportToExcel = (automation: AutomationProps) => {
+    let tableData: any[][];
     // Construir os dados no formato da tabela
-    const tableData: any[][] = [
-      ["Indicador", "1h", "2h", "3h", "4h", "5h", "6h", "7h", "8h", "9h", "10h"], // Cabeçalho
-      ["Aberturas", automation.aberturas1h, automation.aberturas2h, automation.aberturas3h, automation.aberturas4h, automation.aberturas5h, automation.aberturas6h, automation.aberturas7h, automation.aberturas8h, automation.aberturas9h, automation.aberturas10h],
-      ["Fechamentos", automation.fechamentos1h, automation.fechamentos2h, automation.fechamentos3h, automation.fechamentos4h, automation.fechamentos5h, automation.fechamentos6h, automation.fechamentos7h, automation.fechamentos8h, automation.fechamentos9h, automation.fechamentos10h],
-    ];
+    switch (filter) {
+      case "horas":
+        tableData = [
+          ["Indicador", "1h", "2h", "3h", "4h", "5h", "6h", "7h", "8h", "9h", "10h"], // Cabeçalho
+          ["Aberturas", automation.aberturas1h, automation.aberturas2h, automation.aberturas3h, automation.aberturas4h, automation.aberturas5h, automation.aberturas6h, automation.aberturas7h, automation.aberturas8h, automation.aberturas9h, automation.aberturas10h],
+          ["Fechamentos", automation.fechamentos1h, automation.fechamentos2h, automation.fechamentos3h, automation.fechamentos4h, automation.fechamentos5h, automation.fechamentos6h, automation.fechamentos7h, automation.fechamentos8h, automation.fechamentos9h, automation.fechamentos10h],
+        ];
+      case "dias":
+        tableData = [
+          ["Indicador", "1d", "2d", "3d", "4d", "5d", "6d", "7d", "8d", "9d", "10d"], // Cabeçalho
+          ["Aberturas", automation.aberturas1h, automation.aberturas2h, automation.aberturas3h, automation.aberturas4h, automation.aberturas5h, automation.aberturas6h, automation.aberturas7h, automation.aberturas8h, automation.aberturas9h, automation.aberturas10h],
+          ["Fechamentos", automation.fechamentos1h, automation.fechamentos2h, automation.fechamentos3h, automation.fechamentos4h, automation.fechamentos5h, automation.fechamentos6h, automation.fechamentos7h, automation.fechamentos8h, automation.fechamentos9h, automation.fechamentos10h],
+        ];
+      case "meses":
+        tableData = [
+          ["Indicador", "1d", "2d", "3d", "4d", "5d", "6d", "7d", "8d", "9d", "10d"], // Cabeçalho
+          ["Aberturas", automation.aberturas1h, automation.aberturas2h, automation.aberturas3h, automation.aberturas4h, automation.aberturas5h, automation.aberturas6h, automation.aberturas7h, automation.aberturas8h, automation.aberturas9h, automation.aberturas10h],
+          ["Fechamentos", automation.fechamentos1h, automation.fechamentos2h, automation.fechamentos3h, automation.fechamentos4h, automation.fechamentos5h, automation.fechamentos6h, automation.fechamentos7h, automation.fechamentos8h, automation.fechamentos9h, automation.fechamentos10h],
+        ];
+      case "anos":
+        tableData = [
+          ["Indicador", "1d", "2d", "3d", "4d", "5d", "6d", "7d", "8d", "9d", "10d"], // Cabeçalho
+          ["Aberturas", automation.aberturas1h, automation.aberturas2h, automation.aberturas3h, automation.aberturas4h, automation.aberturas5h, automation.aberturas6h, automation.aberturas7h, automation.aberturas8h, automation.aberturas9h, automation.aberturas10h],
+          ["Fechamentos", automation.fechamentos1h, automation.fechamentos2h, automation.fechamentos3h, automation.fechamentos4h, automation.fechamentos5h, automation.fechamentos6h, automation.fechamentos7h, automation.fechamentos8h, automation.fechamentos9h, automation.fechamentos10h],
+        ];
+    }
+
   
     // Converter os dados em uma planilha
     const ws = XLSX.utils.aoa_to_sheet(tableData); // Usa aoa_to_sheet para uma matriz de arrays
@@ -365,7 +388,7 @@ export default function Home() {
                   <thead>
                     <tr className="bg-gray-500 text-white">
                       <th className="border border-gray-300 px-2 py-2 text-center">Indicador</th>
-                      {renderHeaderColumns(automation)}
+                      {renderHeaderColumns()}
                     </tr>
                   </thead>
                   <tbody>
