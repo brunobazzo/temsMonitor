@@ -3,118 +3,82 @@ import * as XLSX from 'xlsx'; // Importando a biblioteca XLSX
 
 import { useEffect, useState } from "react";
 
-const mockData: AutomationProps[] = [
-      {
-      "instancia": "10.113.144.213",
-      "name": "AutomacaoXPTO.groovy",
-      "fechamentos1h": 6,
-      "aberturas1h": 6,
-      "fechamentos2h": 9,
-      "aberturas2h": 7,
-      "fechamentos3h": 7,
-      "aberturas3h": 8,
-      "fechamentos4h": 4,
-      "aberturas4h": 7,
-      "fechamentos5h": 4,
-      "aberturas5h": 7,
-      "fechamentos6h": 4,
-      "aberturas6h": 7,
-      "fechamentos7h": 3,
-      "aberturas7h": 6,
-      "fechamentos8h": 4,
-      "aberturas8h": 7,
-      "fechamentos9h": 5,
-      "aberturas9h": 6,
-      "fechamentos10h": 6,
-      "aberturas10h": 8
-    },
-    {
-      "instancia": "10.113.144.214",
-      "name": "AutomacaoMetroXYZ.groovy",
-      "fechamentos1h": 9,
-      "aberturas1h": 8,
-      "fechamentos2h": 7,
-      "aberturas2h": 6,
-      "fechamentos3h": 5,
-      "aberturas3h": 4,
-      "fechamentos4h": 3,
-      "aberturas4h": 2,
-      "fechamentos5h": 4,
-      "aberturas5h": 7,
-      "fechamentos6h": 4,
-      "aberturas6h": 7,
-      "fechamentos7h": 3,
-      "aberturas7h": 5,
-      "fechamentos8h": 2,
-      "aberturas8h": 6,
-      "fechamentos9h": 4,
-      "aberturas9h": 7,
-      "fechamentos10h": 6,
-      "aberturas10h": 5
-    },
-    {
-      "instancia": "10.113.144.213",
-      "name": "AutomacaoYYY.groovy",
-      "fechamentos1h": 2,
-      "aberturas1h": 3,
-      "fechamentos2h": 4,
-      "aberturas2h": 5,
-      "fechamentos3h": 6,
-      "aberturas3h": 7,
-      "fechamentos4h": 8,
-      "aberturas4h": 9,
-      "fechamentos5h": 4,
-      "aberturas5h": 7,
-      "fechamentos6h": 4,
-      "aberturas6h": 7,
-      "fechamentos7h": 5,
-      "aberturas7h": 6,
-      "fechamentos8h": 4,
-      "aberturas8h": 5,
-      "fechamentos9h": 6,
-      "aberturas9h": 8,
-      "fechamentos10h": 7,
-      "aberturas10h": 9
+interface Valores {
+  [key: string]: {
+    aberturas: number;
+    fechamentos: number;
+  };
 }
-]
-  
 
-interface AutomationProps {
-  instancia: string;
-  name: string;
-  fechamentos1h: number;
-  aberturas1h: number;
-  fechamentos2h: number;
-  aberturas2h: number;
-  fechamentos3h: number;
-  aberturas3h: number;
-  fechamentos4h: number;
-  aberturas4h: number;
-  fechamentos5h: number;
-  aberturas5h: number;
-  fechamentos6h: number;
-  aberturas6h: number;
-  fechamentos7h: number;
-  aberturas7h: number;
-  fechamentos8h: number;
-  aberturas8h: number;
-  fechamentos9h: number;
-  aberturas9h: number;
-  fechamentos10h: number;
-  aberturas10h: number;
+interface AutomationPropsV2 {
+  script: string;
+  valores: Valores;
+  IP: string;
 }
+
+const mockData2: AutomationPropsV2[] = [
+  {
+    "script": "AutomacaoBazzo.groovy",
+    "valores": {
+      "2025-1-20 13": { "aberturas": 6, "fechamentos": 2 },
+      "2025-1-20 14": { "aberturas": 5, "fechamentos": 4 },
+      "2025-1-20 15": { "aberturas": 6, "fechamentos": 8 },
+      "2025-1-20 16": { "aberturas": 11, "fechamentos": 13 },
+      "2025-1-20 17": { "aberturas": 9, "fechamentos": 22 },
+      "2025-1-20 18": { "aberturas": 10, "fechamentos": 7 },
+      "2025-1-20 19": { "aberturas": 10, "fechamentos": 20 },
+      "2025-1-20 20": { "aberturas": 20, "fechamentos": 29 },
+      "2025-1-20 21": { "aberturas": 18, "fechamentos": 19 },
+      "2025-1-20 22": { "aberturas": 22, "fechamentos": 10 },
+    },
+    "IP": "10.113.144.214",
+  },
+  {
+    "script": "AutomacaoBruno.groovy",
+    "valores": {
+      "2025-1-20 13": { "aberturas": 5, "fechamentos": 6 },
+      "2025-1-20 14": { "aberturas": 13, "fechamentos": 3 },
+      "2025-1-20 15": { "aberturas": 10, "fechamentos": 12 },
+      "2025-1-20 16": { "aberturas": 11, "fechamentos": 9 },
+      "2025-1-20 17": { "aberturas": 13, "fechamentos": 3 },
+      "2025-1-20 18": { "aberturas": 13, "fechamentos": 3 },
+      "2025-1-20 19": { "aberturas": 10, "fechamentos": 12 },
+      "2025-1-20 20": { "aberturas": 11, "fechamentos": 9 },
+      "2025-1-20 21": { "aberturas": 18, "fechamentos": 13 },
+      "2025-1-20 22": { "aberturas": 22, "fechamentos": 10 },
+    },
+    "IP": "10.113.144.213",
+  },
+  {
+    "script": "AutomacaoAbellan.groovy",
+    "valores": {
+      "2025-1-20 13": { "aberturas": 20, "fechamentos": 50 },
+      "2025-1-20 14": { "aberturas": 21, "fechamentos": 30 },
+      "2025-1-20 15": { "aberturas": 19, "fechamentos": 11 },
+      "2025-1-20 16": { "aberturas": 13, "fechamentos": 91 },
+      "2025-1-20 17": { "aberturas": 10, "fechamentos": 36 },
+      "2025-1-20 18": { "aberturas": 22, "fechamentos": 34 },
+      "2025-1-20 19": { "aberturas": 9, "fechamentos": 55 },
+      "2025-1-20 20": { "aberturas": 15, "fechamentos": 18 },
+      "2025-1-20 21": { "aberturas": 18, "fechamentos": 13 },
+      "2025-1-20 22": { "aberturas": 22, "fechamentos": 10 },
+    },
+    "IP": "10.113.222.222",
+  }
+];
 
 export default function Home() {
-  const [data, setData] = useState<AutomationProps[]>([]);
+  const [data, setData] = useState<AutomationPropsV2[]>([]);
   const [filter, setFilter] = useState<"horas" | "dias" | "meses" | "anos">("horas");
 
   // UseEffect para buscar os dados da API
   useEffect(() => {
     const fetchData = async () => {
-      //const response = await fetch('http://localhost:4000/users');
+      //const response = await fetch('http://localhost:2012/api/all/days');
       //const result = await response.json();
+      //console.log(result);
       //setData(result);
-      setData(mockData);
+      setData(mockData2);
     };
 
     fetchData();
@@ -194,67 +158,130 @@ export default function Home() {
     return days;
   };
 
+  // Função para renderizar as horas dinamicamente, começando da hora atual e retrocedendo
+const renderTableHeaderForHours = () => {
+  const currentDate = new Date(); // Obtém a data e hora atual
+  const currentHour = currentDate.getHours(); // Hora atual
+  const numberOfHours = 10; // Número de horas que você quer mostrar
+
+  let hours = [];
+  for (let i = 0; i < numberOfHours; i++) {
+    // Cria uma nova data com a hora atual menos o número de horas que você quer retroceder
+    const hour = new Date(currentDate.getTime() - i * 60 * 60 * 1000);
+
+    // Obtém a hora
+    const hourOfDay = hour.getHours();
+
+    // Obtém o dia
+    const dayOfMonth = hour.getDate();
+
+    // Obtém o nome do mês (para exibir junto com o dia)
+    const monthName = hour.toLocaleString('default', { month: 'long' });
+
+    // Obtém o ano
+    const year = hour.getFullYear();
+
+    hours.push(
+      <th key={i} className="border border-gray-300 px-2 py-2 text-center">
+        {hourOfDay}:00  {/* Exibe a hora, dia, nome do mês e o ano // - {dayOfMonth} {monthName} {year} */}
+      </th>
+    );
+  }
+  return hours;
+};
+
   // Função para renderizar as células com base no filtro de tempo
-  const renderTimeColumns = (automation: AutomationProps) => {
+  const renderColumnsAbertura = (automation: AutomationPropsV2) => {
+    const timeKeys = Object.keys(automation.valores);
+  
     switch (filter) {
       case "horas":
         return (
           <>
-            <td className="border border-gray-300 px-2 py-2 text-center">{automation.aberturas1h}</td>
-            <td className="border border-gray-300 px-2 py-2 text-center">{automation.aberturas2h}</td>
-            <td className="border border-gray-300 px-2 py-2 text-center">{automation.aberturas3h}</td>
-            <td className="border border-gray-300 px-2 py-2 text-center">{automation.aberturas4h}</td>
-            <td className="border border-gray-300 px-2 py-2 text-center">{automation.aberturas5h}</td>
-            <td className="border border-gray-300 px-2 py-2 text-center">{automation.aberturas6h}</td>
-            <td className="border border-gray-300 px-2 py-2 text-center">{automation.aberturas7h}</td>
-            <td className="border border-gray-300 px-2 py-2 text-center">{automation.aberturas8h}</td>
-            <td className="border border-gray-300 px-2 py-2 text-center">{automation.aberturas9h}</td>
-            <td className="border border-gray-300 px-2 py-2 text-center">{automation.aberturas10h}</td>
+            {timeKeys.map((key) => (
+              <td key={key} className="border border-gray-300 px-2 py-2 text-center">
+                {automation.valores[key].aberturas}
+              </td>
+            ))}
           </>
         );
       case "dias":
         return (
           <>
-            <td className="border border-gray-300 px-2 py-2 text-center">{automation.aberturas1h * 24}</td>
-            <td className="border border-gray-300 px-2 py-2 text-center">{automation.aberturas2h * 25}</td>
-            <td className="border border-gray-300 px-2 py-2 text-center">{automation.aberturas3h * 26}</td>
-            <td className="border border-gray-300 px-2 py-2 text-center">{automation.aberturas4h * 27}</td>
-            <td className="border border-gray-300 px-2 py-2 text-center">{automation.aberturas5h * 28}</td>
-            <td className="border border-gray-300 px-2 py-2 text-center">{automation.aberturas6h * 29}</td>
-            <td className="border border-gray-300 px-2 py-2 text-center">{automation.aberturas7h * 20}</td>
-            <td className="border border-gray-300 px-2 py-2 text-center">{automation.aberturas8h * 21}</td>
-            <td className="border border-gray-300 px-2 py-2 text-center">{automation.aberturas9h * 22}</td>
-            <td className="border border-gray-300 px-2 py-2 text-center">{automation.aberturas10h * 24}</td>
+            {timeKeys.map((key) => (
+              <td key={key} className="border border-gray-300 px-2 py-2 text-center">
+                {automation.valores[key].aberturas * 24}
+              </td>
+            ))}
           </>
         );
       case "meses":
         return (
           <>
-            <td className="border border-gray-300 px-2 py-2 text-center">{automation.aberturas1h * 31}</td>
-            <td className="border border-gray-300 px-2 py-2 text-center">{automation.aberturas2h * 32}</td>
-            <td className="border border-gray-300 px-2 py-2 text-center">{automation.aberturas3h * 33}</td>
-            <td className="border border-gray-300 px-2 py-2 text-center">{automation.aberturas4h * 34}</td>
-            <td className="border border-gray-300 px-2 py-2 text-center">{automation.aberturas5h * 35}</td>
-            <td className="border border-gray-300 px-2 py-2 text-center">{automation.aberturas6h * 36}</td>
-            <td className="border border-gray-300 px-2 py-2 text-center">{automation.aberturas7h * 37}</td>
-            <td className="border border-gray-300 px-2 py-2 text-center">{automation.aberturas8h * 38}</td>
-            <td className="border border-gray-300 px-2 py-2 text-center">{automation.aberturas9h * 30}</td>
-            <td className="border border-gray-300 px-2 py-2 text-center">{automation.aberturas10h * 32}</td>
+            {timeKeys.map((key) => (
+              <td key={key} className="border border-gray-300 px-2 py-2 text-center">
+                {automation.valores[key].aberturas * 31}
+              </td>
+            ))}
           </>
         );
       case "anos":
         return (
           <>
-            <td className="border border-gray-300 px-2 py-2 text-center">{automation.aberturas1h * 360}</td>
-            <td className="border border-gray-300 px-2 py-2 text-center">{automation.aberturas2h * 365}</td>
-            <td className="border border-gray-300 px-2 py-2 text-center">{automation.aberturas3h * 361}</td>
-            <td className="border border-gray-300 px-2 py-2 text-center">{automation.aberturas4h * 365}</td>
-            <td className="border border-gray-300 px-2 py-2 text-center">{automation.aberturas5h * 363}</td>
-            <td className="border border-gray-300 px-2 py-2 text-center">{automation.aberturas6h * 364}</td>
-            <td className="border border-gray-300 px-2 py-2 text-center">{automation.aberturas7h * 365}</td>
-            <td className="border border-gray-300 px-2 py-2 text-center">{automation.aberturas8h * 365}</td>
-            <td className="border border-gray-300 px-2 py-2 text-center">{automation.aberturas9h * 360}</td>
-            <td className="border border-gray-300 px-2 py-2 text-center">{automation.aberturas10h * 361}</td>
+            {timeKeys.map((key) => (
+              <td key={key} className="border border-gray-300 px-2 py-2 text-center">
+                {automation.valores[key].aberturas * 365}
+              </td>
+            ))}
+          </>
+        );
+      default:
+        return null;
+    }
+  };
+
+  const renderColumnsFechamento = (automation: AutomationPropsV2) => {
+    const timeKeys = Object.keys(automation.valores);
+  
+    switch (filter) {
+      case "horas":
+        return (
+          <>
+            {timeKeys.map((key) => (
+              <td key={key} className="border border-gray-300 px-2 py-2 text-center">
+                {automation.valores[key].fechamentos}
+              </td>
+            ))}
+          </>
+        );
+      case "dias":
+        return (
+          <>
+            {timeKeys.map((key) => (
+              <td key={key} className="border border-gray-300 px-2 py-2 text-center">
+                {automation.valores[key].fechamentos * 24}
+              </td>
+            ))}
+          </>
+        );
+      case "meses":
+        return (
+          <>
+            {timeKeys.map((key) => (
+              <td key={key} className="border border-gray-300 px-2 py-2 text-center">
+                {automation.valores[key].fechamentos * 31}
+              </td>
+            ))}
+          </>
+        );
+      case "anos":
+        return (
+          <>
+            {timeKeys.map((key) => (
+              <td key={key} className="border border-gray-300 px-2 py-2 text-center">
+                {automation.valores[key].fechamentos * 365}
+              </td>
+            ))}
           </>
         );
       default:
@@ -267,16 +294,7 @@ export default function Home() {
       case "horas":
         return (
           <>
-            <td className="border border-gray-300 px-2 py-2 text-center">1h</td>
-            <td className="border border-gray-300 px-2 py-2 text-center">2h</td>
-            <td className="border border-gray-300 px-2 py-2 text-center">3h</td>
-            <td className="border border-gray-300 px-2 py-2 text-center">4h</td>
-            <td className="border border-gray-300 px-2 py-2 text-center">5h</td>
-            <td className="border border-gray-300 px-2 py-2 text-center">6h</td>
-            <td className="border border-gray-300 px-2 py-2 text-center">7h</td>
-            <td className="border border-gray-300 px-2 py-2 text-center">8h</td>
-            <td className="border border-gray-300 px-2 py-2 text-center">9h</td>
-            <td className="border border-gray-300 px-2 py-2 text-center">10h</td>
+          {renderTableHeaderForHours()}
           </>
         );
       case "dias":
@@ -303,36 +321,42 @@ export default function Home() {
   };
 
   // Função para exportar os dados para Excel
-  const exportToExcel = (automation: AutomationProps) => {
-    let tableData: any[][];
-    // Construir os dados no formato da tabela
+  const exportToExcel = (automation: AutomationPropsV2) => {
+    let tableData: any[][] = [];
+    const timeKeys = Object.keys(automation.valores);
+  
     switch (filter) {
       case "horas":
         tableData = [
-          ["Indicador", "1h", "2h", "3h", "4h", "5h", "6h", "7h", "8h", "9h", "10h"], // Cabeçalho
-          ["Aberturas", automation.aberturas1h, automation.aberturas2h, automation.aberturas3h, automation.aberturas4h, automation.aberturas5h, automation.aberturas6h, automation.aberturas7h, automation.aberturas8h, automation.aberturas9h, automation.aberturas10h],
-          ["Fechamentos", automation.fechamentos1h, automation.fechamentos2h, automation.fechamentos3h, automation.fechamentos4h, automation.fechamentos5h, automation.fechamentos6h, automation.fechamentos7h, automation.fechamentos8h, automation.fechamentos9h, automation.fechamentos10h],
+          ["Indicador", ...timeKeys.map(key => `${key.split(' ')[1]}h`)], // Cabeçalho
+          ["Aberturas", ...timeKeys.map(key => automation.valores[key].aberturas)],
+          ["Fechamentos", ...timeKeys.map(key => automation.valores[key].fechamentos)],
         ];
+        break;
       case "dias":
         tableData = [
-          ["Indicador", "1d", "2d", "3d", "4d", "5d", "6d", "7d", "8d", "9d", "10d"], // Cabeçalho
-          ["Aberturas", automation.aberturas1h, automation.aberturas2h, automation.aberturas3h, automation.aberturas4h, automation.aberturas5h, automation.aberturas6h, automation.aberturas7h, automation.aberturas8h, automation.aberturas9h, automation.aberturas10h],
-          ["Fechamentos", automation.fechamentos1h, automation.fechamentos2h, automation.fechamentos3h, automation.fechamentos4h, automation.fechamentos5h, automation.fechamentos6h, automation.fechamentos7h, automation.fechamentos8h, automation.fechamentos9h, automation.fechamentos10h],
+          ["Indicador", ...timeKeys.map(key => `${key.split(' ')[0]}`)], // Cabeçalho
+          ["Aberturas", ...timeKeys.map(key => automation.valores[key].aberturas * 24)],
+          ["Fechamentos", ...timeKeys.map(key => automation.valores[key].fechamentos * 24)],
         ];
+        break;
       case "meses":
         tableData = [
-          ["Indicador", "1d", "2d", "3d", "4d", "5d", "6d", "7d", "8d", "9d", "10d"], // Cabeçalho
-          ["Aberturas", automation.aberturas1h, automation.aberturas2h, automation.aberturas3h, automation.aberturas4h, automation.aberturas5h, automation.aberturas6h, automation.aberturas7h, automation.aberturas8h, automation.aberturas9h, automation.aberturas10h],
-          ["Fechamentos", automation.fechamentos1h, automation.fechamentos2h, automation.fechamentos3h, automation.fechamentos4h, automation.fechamentos5h, automation.fechamentos6h, automation.fechamentos7h, automation.fechamentos8h, automation.fechamentos9h, automation.fechamentos10h],
+          ["Indicador", ...timeKeys.map(key => `${key.split(' ')[0]}`)], // Cabeçalho
+          ["Aberturas", ...timeKeys.map(key => automation.valores[key].aberturas * 31)],
+          ["Fechamentos", ...timeKeys.map(key => automation.valores[key].fechamentos * 31)],
         ];
+        break;
       case "anos":
         tableData = [
-          ["Indicador", "1d", "2d", "3d", "4d", "5d", "6d", "7d", "8d", "9d", "10d"], // Cabeçalho
-          ["Aberturas", automation.aberturas1h, automation.aberturas2h, automation.aberturas3h, automation.aberturas4h, automation.aberturas5h, automation.aberturas6h, automation.aberturas7h, automation.aberturas8h, automation.aberturas9h, automation.aberturas10h],
-          ["Fechamentos", automation.fechamentos1h, automation.fechamentos2h, automation.fechamentos3h, automation.fechamentos4h, automation.fechamentos5h, automation.fechamentos6h, automation.fechamentos7h, automation.fechamentos8h, automation.fechamentos9h, automation.fechamentos10h],
+          ["Indicador", ...timeKeys.map(key => `${key.split(' ')[0]}`)], // Cabeçalho
+          ["Aberturas", ...timeKeys.map(key => automation.valores[key].aberturas * 365)],
+          ["Fechamentos", ...timeKeys.map(key => automation.valores[key].fechamentos * 365)],
         ];
+        break;
+      default:
+        return;
     }
-
   
     // Converter os dados em uma planilha
     const ws = XLSX.utils.aoa_to_sheet(tableData); // Usa aoa_to_sheet para uma matriz de arrays
@@ -340,14 +364,14 @@ export default function Home() {
     XLSX.utils.book_append_sheet(wb, ws, "Dados");
   
     // Gera o arquivo Excel e inicia o download
-    XLSX.writeFile(wb, `${automation.name}_dados.xlsx`);
+    XLSX.writeFile(wb, `${automation.script}_dados.xlsx`);
   };
   
 
   return (
     <div>
       <div className="flex justify-between items-center mt-5 mb-4 mx-4">
-        <h1 className="font-bold text-3xl text-[#000000]">Automações</h1>
+        <h1 className="font-bold text-3xl text-[#000000]">Automações TEMS</h1>
       </div>
   
       {/* Botões de filtro */}
@@ -368,11 +392,11 @@ export default function Home() {
         {data.length > 0 ? (
           data.map((automation) => (
             <div
-              key={automation.name}
+              key={automation.script}
               className="border rounded-lg shadow-md p-4 bg-white hover:shadow-lg transition-shadow duration-300"
             >
               <div className="flex justify-between items-center">
-                <h2 className="font-bold text-xl text-gray-800 mb-3">{automation.name}</h2>
+                <h2 className="font-bold text-xl text-gray-800 mb-3">{automation.script}</h2>
                 <button
                   onClick={() => exportToExcel(automation)}
                   className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
@@ -381,7 +405,7 @@ export default function Home() {
                 </button>
               </div>
               <p className="text-left mt-2 mb-3 font-medium text-sm text-gray-600">
-                Instância da cardinal: {automation.instancia}
+                Instância da cardinal: {automation.IP}
               </p>
               <div className="overflow-x-auto">
                 <table className="min-w-full border-collapse border border-gray-300 rounded-lg bg-gray-100 overflow-hidden">
@@ -394,11 +418,11 @@ export default function Home() {
                   <tbody>
                     <tr className="hover:bg-gray-200 transition-colors">
                       <td className="border border-gray-300 px-2 py-2 text-center font-medium">Aberturas</td>
-                      {renderTimeColumns(automation)}
+                      {renderColumnsAbertura(automation)}
                     </tr>
                     <tr className="hover:bg-gray-200 transition-colors">
                       <td className="border border-gray-300 px-2 py-2 text-center font-medium">Fechamentos</td>
-                      {renderTimeColumns(automation)}
+                      {renderColumnsFechamento(automation)}
                     </tr>
                   </tbody>
                 </table>
