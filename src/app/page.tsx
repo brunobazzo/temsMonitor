@@ -73,16 +73,43 @@ export default function Home() {
 
   // UseEffect para buscar os dados da API
   useEffect(() => {
+
     const fetchData = async () => {
-      //const response = await fetch('http://localhost:2012/api/all/days');
-      //const result = await response.json();
-      //console.log(result);
-      //setData(result);
-      setData(mockData2);
+      let endpoint = '';
+      switch (filter) {
+        case 'horas':
+          endpoint = 'http://localhost:3001/api/all/hours';
+          break;
+        case 'dias':
+          endpoint = 'http://localhost:3001/api/all/days';
+          break;
+        case 'meses':
+          endpoint = 'http://localhost:3001/api/all/months';
+          break;
+        case 'anos':
+          endpoint = 'http://localhost:3001/api/all/years';
+          break;
+        default:
+          break;
+      }
+
+      try {
+        const response = await fetch(endpoint, { mode: 'cors' });
+        if (!response.ok) {
+          throw new Error(`Erro! status: ${response.status}`);
+        }
+        const result = await response.json();
+        console.log(result);
+        setData(result);
+      } catch (err) {
+        console.log('Falha ao buscar');
+        console.error('Falha ao buscar:', err);
+        //setError(err.message);
+      }
     };
 
     fetchData();
-  }, []); // O array vazio [] garante que o efeito será executado apenas uma vez
+  }, [filter]);
 
   const renderTableHeaderForYears = () => {
     const currentYear = new Date().getFullYear(); // Obtém o ano atual
@@ -210,7 +237,7 @@ const renderTableHeaderForHours = () => {
           <>
             {timeKeys.map((key) => (
               <td key={key} className="border border-gray-300 px-2 py-2 text-center">
-                {automation.valores[key].aberturas * 24}
+                {automation.valores[key].aberturas }
               </td>
             ))}
           </>
@@ -220,7 +247,7 @@ const renderTableHeaderForHours = () => {
           <>
             {timeKeys.map((key) => (
               <td key={key} className="border border-gray-300 px-2 py-2 text-center">
-                {automation.valores[key].aberturas * 31}
+                {automation.valores[key].aberturas }
               </td>
             ))}
           </>
@@ -230,7 +257,7 @@ const renderTableHeaderForHours = () => {
           <>
             {timeKeys.map((key) => (
               <td key={key} className="border border-gray-300 px-2 py-2 text-center">
-                {automation.valores[key].aberturas * 365}
+                {automation.valores[key].aberturas }
               </td>
             ))}
           </>
@@ -259,7 +286,7 @@ const renderTableHeaderForHours = () => {
           <>
             {timeKeys.map((key) => (
               <td key={key} className="border border-gray-300 px-2 py-2 text-center">
-                {automation.valores[key].fechamentos * 24}
+                {automation.valores[key].fechamentos }
               </td>
             ))}
           </>
@@ -269,7 +296,7 @@ const renderTableHeaderForHours = () => {
           <>
             {timeKeys.map((key) => (
               <td key={key} className="border border-gray-300 px-2 py-2 text-center">
-                {automation.valores[key].fechamentos * 31}
+                {automation.valores[key].fechamentos }
               </td>
             ))}
           </>
@@ -279,7 +306,7 @@ const renderTableHeaderForHours = () => {
           <>
             {timeKeys.map((key) => (
               <td key={key} className="border border-gray-300 px-2 py-2 text-center">
-                {automation.valores[key].fechamentos * 365}
+                {automation.valores[key].fechamentos }
               </td>
             ))}
           </>
@@ -336,22 +363,22 @@ const renderTableHeaderForHours = () => {
       case "dias":
         tableData = [
           ["Indicador", ...timeKeys.map(key => `${key.split(' ')[0]}`)], // Cabeçalho
-          ["Aberturas", ...timeKeys.map(key => automation.valores[key].aberturas * 24)],
-          ["Fechamentos", ...timeKeys.map(key => automation.valores[key].fechamentos * 24)],
+          ["Aberturas", ...timeKeys.map(key => automation.valores[key].aberturas)],
+          ["Fechamentos", ...timeKeys.map(key => automation.valores[key].fechamentos)],
         ];
         break;
       case "meses":
         tableData = [
           ["Indicador", ...timeKeys.map(key => `${key.split(' ')[0]}`)], // Cabeçalho
-          ["Aberturas", ...timeKeys.map(key => automation.valores[key].aberturas * 31)],
-          ["Fechamentos", ...timeKeys.map(key => automation.valores[key].fechamentos * 31)],
+          ["Aberturas", ...timeKeys.map(key => automation.valores[key].aberturas)],
+          ["Fechamentos", ...timeKeys.map(key => automation.valores[key].fechamentos)],
         ];
         break;
       case "anos":
         tableData = [
           ["Indicador", ...timeKeys.map(key => `${key.split(' ')[0]}`)], // Cabeçalho
-          ["Aberturas", ...timeKeys.map(key => automation.valores[key].aberturas * 365)],
-          ["Fechamentos", ...timeKeys.map(key => automation.valores[key].fechamentos * 365)],
+          ["Aberturas", ...timeKeys.map(key => automation.valores[key].aberturas)],
+          ["Fechamentos", ...timeKeys.map(key => automation.valores[key].fechamentos)],
         ];
         break;
       default:
