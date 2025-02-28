@@ -70,10 +70,10 @@ const mockData2: AutomationPropsV2[] = [
 export default function Home() {
   const [data, setData] = useState<AutomationPropsV2[]>([]);
   const [filter, setFilter] = useState<"horas" | "dias" | "meses" | "anos">("horas");
+  const [loading, setLoading] = useState(true); // Estado para controlar o carregamento
 
   // UseEffect para buscar os dados da API
   useEffect(() => {
-
     const fetchData = async () => {
       let endpoint = '';
       switch (filter) {
@@ -94,6 +94,7 @@ export default function Home() {
       }
 
       try {
+        setLoading(true); // Inicia o carregamento
         const response = await fetch(endpoint, { mode: 'cors' });
         if (!response.ok) {
           throw new Error(`Erro! status: ${response.status}`);
@@ -104,7 +105,8 @@ export default function Home() {
       } catch (err) {
         console.log('Falha ao buscar');
         console.error('Falha ao buscar:', err);
-        //setError(err.message);
+      } finally {
+        setLoading(false); // Finaliza o carregamento
       }
     };
 
@@ -319,29 +321,13 @@ const renderTableHeaderForHours = () => {
   const renderHeaderColumns = () => {
     switch (filter) {
       case "horas":
-        return (
-          <>
-          {renderTableHeaderForHours()}
-          </>
-        );
+        return renderTableHeaderForHours();
       case "dias":
-        return (
-          <>
-            {renderTableHeaderForDays()}
-          </>
-        );
+        return renderTableHeaderForDays();
       case "meses":
-        return (
-          <>
-            {renderTableHeaderForMonths()}
-          </>
-        );
+        return renderTableHeaderForMonths();
       case "anos":
-        return (
-          <>
-            {renderTableHeaderForYears()}
-          </>
-        );
+        return renderTableHeaderForYears();
       default:
         return null;
     }
@@ -416,7 +402,9 @@ const renderTableHeaderForHours = () => {
   
       {/* Exibição dos dados */}
       <div className="flex flex-col gap-6 mx-4">
-        {data.length > 0 ? (
+        {loading ? (
+          <p className="text-center text-gray-500">Carregando...</p>
+        ) : data.length > 0 ? (
           data.map((automation) => (
             <div
               key={automation.script}

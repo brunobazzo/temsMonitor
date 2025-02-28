@@ -8,9 +8,7 @@ export function Header(){
         <link rel="jpg" href="/entity" type="image/x-icon"></link>
         <div className="flex items-center justify-between w-full mx-auto max-w-7x1">
             
-            <div>
-                Menu
-            </div>
+
         </div>
 
         <nav>
@@ -18,16 +16,7 @@ export function Header(){
                 <li>
                     <Image src="/entity.jpg" alt="Logo" width={50} height={50} className="round-image"/>
                 </li>
-                <li>
-                    <Link href='/'>
-                    Home
-                    </Link>
-                </li>
-                <li>
-                    <Link href='/contatos'>
-                    Contatos
-                    </Link>
-                </li>
+
             </ul>
         </nav>
     </header>
